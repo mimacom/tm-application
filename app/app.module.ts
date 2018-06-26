@@ -9,6 +9,7 @@ import {ItemDetailComponent} from "./item/item-detail.component";
 import {NativeScriptHttpClientModule} from 'nativescript-angular/http-client';
 import {ApolloModule, Apollo} from 'apollo-angular';
 import {HttpLinkModule, HttpLink} from 'apollo-angular-link-http';
+import {InMemoryCache} from 'apollo-cache-inmemory';
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from "nativescript-angular/forms";
@@ -46,8 +47,8 @@ export class AppModule {
     constructor(apollo: Apollo,
                 httpLink: HttpLink) {
         apollo.create({
-            link: httpLink.create({uri: "Http://backend-2111266174.eu-central-1.elb.amazonaws.com"})
-            // other options like cache
+            link: httpLink.create({uri: "http://backend-2111266174.eu-central-1.elb.amazonaws.com/"}),
+            cache: new InMemoryCache()
         });
     }
 }
