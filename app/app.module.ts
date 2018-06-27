@@ -1,15 +1,23 @@
 import {NgModule, NO_ERRORS_SCHEMA} from "@angular/core";
 import {NativeScriptModule} from "nativescript-angular/nativescript.module";
-import {AppRoutingModule} from "./app.routing";
-import {AppComponent} from "./app.component";
-
-import {ItemService} from "./item/item.service";
-import {ItemsComponent} from "./item/items.component";
-import {ItemDetailComponent} from "./item/item-detail.component";
 import {NativeScriptHttpClientModule} from 'nativescript-angular/http-client';
 import {ApolloModule, Apollo} from 'apollo-angular';
 import {HttpLinkModule, HttpLink} from 'apollo-angular-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
+import {NativeScriptUISideDrawerModule} from 'nativescript-ui-sidedrawer/angular';
+
+import {AppRoutingModule} from "./app.routing";
+import {AppComponent} from "./app.component";
+
+import {LoginComponent} from '~/pages/login/login.component';
+import {RootComponent} from '~/pages/root/root.component';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {JwtInterceptor} from '~/util/jwt.interceptor';
+import {AuthInterceptor} from '~/util/auth.interceptor';
+import {AuthGuard} from '~/guards/auth.guard';
+import {AuthService} from '~/services/auth.service';
+
+require("nativescript-localstorage");
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from "nativescript-angular/forms";
@@ -26,23 +34,32 @@ import {InMemoryCache} from 'apollo-cache-inmemory';
         NativeScriptHttpClientModule,
         AppRoutingModule,
         ApolloModule,
-        HttpLinkModule
+        HttpLinkModule,
+        NativeScriptUISideDrawerModule
     ],
     declarations: [
         AppComponent,
-        ItemsComponent,
-        ItemDetailComponent
+        LoginComponent,
+        RootComponent
     ],
     providers: [
-        ItemService
+        AuthGuard,
+        AuthService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: JwtInterceptor,
+            multi: true
+        }
     ],
     schemas: [
         NO_ERRORS_SCHEMA
     ]
 })
-/*
- Pass your application module to the bootstrapModule function located in main.ts to start your app
- */
 export class AppModule {
     constructor(apollo: Apollo,
                 httpLink: HttpLink) {

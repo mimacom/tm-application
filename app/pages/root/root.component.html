@@ -1,0 +1,15 @@
+<ActionBar class="action-bar" title="Home">
+    <NavigationButton icon="res://ic_menu" (tap)="showDrawer()"></NavigationButton>
+    <Label class="action-bar-title" text="Home"></Label>
+</ActionBar>
+<RadSideDrawer #drawerComponent tkToggleNavButton showOverNavigation="true">
+    <ScrollView tkDrawerContent class="drawer-content">
+        <StackLayout horizzontalAlign="left">
+            asd
+        </StackLayout>
+    </ScrollView>
+    <StackLayout tkMainContent>
+        <Button value="Logout" (tap)="logout()"></Button>
+        <Label *ngFor="let post of drafts" [text]="post.title"></Label>
+    </StackLayout>
+</RadSideDrawer>

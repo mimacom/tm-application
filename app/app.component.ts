@@ -13,14 +13,5 @@ export class AppComponent {
     }
 
     ngOnInit() {
-        this.apollo.mutate({
-            mutation: gql(`
-                mutation login {
-                    login (email: "ivan.g.ortolan@mimacom.com", password: "nooneknows") {
-                        token
-                    }
-                }
-            `)
-        }).subscribe((result) => console.log(result));
     }
 }
