@@ -65,7 +65,9 @@ export class AppModule {
     constructor(apollo: Apollo,
                 httpLink: HttpLink) {
 
-        const http = httpLink.create({uri: 'http://backend-111afc1ee8ab4b54.elb.eu-central-1.amazonaws.com'});
+        const http = httpLink.create({
+            uri: 'http://backend-111afc1ee8ab4b54.elb.eu-central-1.amazonaws.com'
+        });
 
         const ws = new WebSocketLink({
             uri: 'ws://backend-111afc1ee8ab4b54.elb.eu-central-1.amazonaws.com',

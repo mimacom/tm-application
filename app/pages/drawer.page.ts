@@ -6,6 +6,7 @@ export class DrawerPage {
     @ViewChild(RadSideDrawerComponent) protected drawerComponent: RadSideDrawerComponent;
 
     constructor() {
+        //
     }
 
     protected showDrawer() {

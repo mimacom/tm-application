@@ -1,5 +1,21 @@
-<ActionBar class="action-bar" title="Login">
-</ActionBar>
-<StackLayout>
-    <Button (tap)="login()">Login</Button>
-</StackLayout>
+<FlexboxLayout class="page background">
+    <FlexboxLayout class="container">
+        <TextField
+                hint="Email Address"
+                keyboardType="email"
+                returnKeyType="next"
+                (returnPress)="focusPassword()"
+                [(ngModel)]="user.email"
+                autocorrect="false"
+                autocapitalizationType="none"
+                row="0"></TextField>
+        <TextField #password
+                   hint="Password"
+                   secure="true"
+                   returnKeyType="done"
+                   (returnPress)="submit()"
+                   [(ngModel)]="user.password"
+                   row="1"></TextField>
+        <Button text="Login" (tap)="login()"></Button>
+    </FlexboxLayout>
+</FlexboxLayout>

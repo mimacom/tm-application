@@ -1,17 +1,9 @@
-import {Component} from "@angular/core";
-import {Apollo} from 'apollo-angular';
-import gql from 'graphql-tag';
+import {Component} from '@angular/core';
 
 @Component({
-    selector: "ns-app",
-    templateUrl: "app.component.html"
+    selector: 'ns-app',
+    templateUrl: 'app.component.html'
 })
 
 export class AppComponent {
-
-    constructor(private apollo: Apollo) {
-    }
-
-    ngOnInit() {
-    }
 }

@@ -4,16 +4,16 @@ import {Apollo} from 'apollo-angular';
 import {Observable} from 'rxjs/internal/Observable';
 import {map} from 'rxjs/operators';
 
-import {standard} from '~/graphql/mutation/login';
 import {User} from '~/gen/types';
+import {standard} from '~/graphql/mutation/login';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
 
-    static readonly AUTH_KEY = 'user_data';
+    public static readonly AUTH_KEY = 'user_data';
 
-    private _token: string;
-    private _user: User;
+    private internalToken: string;
+    private internalUser: User;
 
     constructor(private apollo: Apollo,
                 private router: Router) {
@@ -26,18 +26,18 @@ export class AuthService {
     }
 
     get token(): string {
-        return this._token;
+        return this.internalToken;
     }
 
     get user(): User {
-        return this._user;
+        return this.internalUser;
     }
 
-    isAuthenticated(): boolean {
+    public isAuthenticated(): boolean {
         return this.token && this.token !== '';
     }
 
-    login(username: string, password: string): Observable<any> {
+    public login(username: string, password: string): Observable<any> {
 
         return this.apollo.mutate<any>({
             mutation: standard,
@@ -55,17 +55,17 @@ export class AuthService {
         );
     }
 
-    logout() {
+    public logout() {
         // remove user from local storage to log user out
-        this._token = null;
-        this._user = null;
+        this.internalToken = null;
+        this.internalUser = null;
         localStorage.removeItem(AuthService.AUTH_KEY);
         this.router.navigate(['/login']);
     }
 
     private cacheData(data: { token: string, user: User }) {
 
-        this._token = data.token;
-        this._user = data.user;
+        this.internalToken = data.token;
+        this.internalUser = data.user;
     }
 }
