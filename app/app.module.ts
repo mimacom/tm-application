@@ -1,29 +1,28 @@
-import {NgModule, NO_ERRORS_SCHEMA} from "@angular/core";
-import {NativeScriptModule} from "nativescript-angular/nativescript.module";
-import {NativeScriptHttpClientModule} from 'nativescript-angular/http-client';
-import {ApolloModule, Apollo} from 'apollo-angular';
-import {HttpLinkModule, HttpLink} from 'apollo-angular-link-http';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
+import {Apollo, ApolloModule} from 'apollo-angular';
+import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
+import {split} from 'apollo-link';
+import {WebSocketLink} from 'apollo-link-ws';
+import {getMainDefinition} from 'apollo-utilities';
+import {NativeScriptFormsModule} from 'nativescript-angular/forms';
+import {NativeScriptHttpClientModule} from 'nativescript-angular/http-client';
+import {NativeScriptModule} from 'nativescript-angular/nativescript.module';
 import {NativeScriptUISideDrawerModule} from 'nativescript-ui-sidedrawer/angular';
 
-import {AppRoutingModule} from "./app.routing";
-import {AppComponent} from "./app.component";
-
+import {AppComponent} from '~/app.component';
+import {AppRoutingModule} from '~/app.routing';
+import {AuthGuard} from '~/guards/auth.guard';
 import {LoginComponent} from '~/pages/login/login.component';
 import {RootComponent} from '~/pages/root/root.component';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {JwtInterceptor} from '~/util/jwt.interceptor';
-import {AuthInterceptor} from '~/util/auth.interceptor';
-import {AuthGuard} from '~/guards/auth.guard';
 import {AuthService} from '~/services/auth.service';
+import {AuthInterceptor} from '~/util/auth.interceptor';
+import {JwtInterceptor} from '~/util/jwt.interceptor';
 
-require("nativescript-localstorage");
-
-// Uncomment and add to NgModule imports if you need to use two-way binding
-// import { NativeScriptFormsModule } from "nativescript-angular/forms";
-
-// Uncomment and add to NgModule imports  if you need to use the HTTP wrapper
-// import { NativeScriptHttpModule } from "nativescript-angular/http";
+import {OperationDefinitionNode} from 'graphql';
+import 'nativescript-localstorage';
+const NativeWebSocket = require('nativescript-websockets');
 
 @NgModule({
     bootstrap: [
@@ -31,6 +30,7 @@ require("nativescript-localstorage");
     ],
     imports: [
         NativeScriptModule,
+        NativeScriptFormsModule,
         NativeScriptHttpClientModule,
         AppRoutingModule,
         ApolloModule,
@@ -61,11 +61,34 @@ require("nativescript-localstorage");
     ]
 })
 export class AppModule {
+
     constructor(apollo: Apollo,
                 httpLink: HttpLink) {
+
+        const http = httpLink.create({uri: 'http://backend-111afc1ee8ab4b54.elb.eu-central-1.amazonaws.com'});
+
+        const ws = new WebSocketLink({
+            uri: 'ws://backend-111afc1ee8ab4b54.elb.eu-central-1.amazonaws.com',
+            options: {
+                reconnect: true
+            },
+            webSocketImpl: NativeWebSocket
+        });
+
+        const link = split(
+            // split based on operation type
+            ({query}) => {
+                const {kind, operation} = getMainDefinition(query) as OperationDefinitionNode;
+                return kind === 'OperationDefinition' && operation === 'subscription';
+            },
+            ws,
+            http
+        );
+
         apollo.create({
-            link: httpLink.create({uri: "http://backend-2111266174.eu-central-1.elb.amazonaws.com/"}),
+            link,
             cache: new InMemoryCache()
         });
+
     }
 }
