@@ -1,15 +1,13 @@
 import gql from 'graphql-tag';
 
-const standard = gql(
-`
-mutation login($email: String!, $password: String!) {
-    login (email: $email, password: $password) {
+const standard = gql`
+mutation loginLdap($email: String!, $password: String!) {
+    loginLdap (email: $email, password: $password) {
         token
         user {
             name
         }
     }
-}
-`);
+}`;
 
 export {standard};
