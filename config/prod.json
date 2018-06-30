@@ -1,0 +1,4 @@
+{
+    "apiEndpoint": "https://backend.mimacom-tm.tk",
+    "apiWsEndpoint": "wss://backend.mimacom-tm.tk"
+}

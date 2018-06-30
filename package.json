@@ -7,11 +7,24 @@
         "id": "org.nativescript.timemanager",
         "tns-android": {
             "version": "4.1.3"
-        }
+        },
+        "hooks": [
+            {
+                "type": "after-prepare",
+                "script": "env.js"
+            }
+        ]
     },
     "scripts": {
-        "download-schema": "apollo-codegen download-schema http://10.10.17.104:4000 --output app/gen/schema.json",
-        "gen-gql-types": "gql-gen --schema app/gen/schema.json --template graphql-codegen-typescript-template --out app/gen/ app/**/*.ts"
+        "get-schema": "apollo-codegen download-schema https://backend.dev.mimacom-tm.tk --output app/gen/schema.json",
+        "gen-gql-types": "gql-gen --schema app/gen/schema.json --template graphql-codegen-typescript-template --out app/gen/ app/**/*.ts",
+        "regen-schema": "run-s get-schema gen-gql-types",
+        "run-android": "cross-env BUILD_PROFILE=local tns run android",
+        "run-dev-android": "cross-env BUILD_PROFILE=dev tns run android",
+        "debug-android": "cross-env BUILD_PROFILE=local tns debug android",
+        "debug-dev-android": "cross-env BUILD_PROFILE=dev tns debug android",
+        "build-android": "cross-env BUILD_PROFILE=local tns build android",
+        "build-dev-android": "cross-env BUILD_PROFILE=dev tns build android"
     },
     "dependencies": {
         "@angular/animations": "~6.0.0",
@@ -51,11 +64,14 @@
         "babel-traverse": "6.26.0",
         "babel-types": "6.26.0",
         "babylon": "6.18.0",
+        "cross-env": "^5.2.0",
         "graphql-code-generator": "^0.9.4",
         "graphql-codegen-typescript-template": "^0.9.4",
         "graphql-document-collector": "^0.2.1",
         "lazy": "1.0.11",
+        "mkdirp": "^0.5.1",
         "nativescript-dev-typescript": "~0.7.0",
+        "npm-run-all": "^4.1.3",
         "tslint": "^5.10.0",
         "typescript": "~2.7.2"
     }
