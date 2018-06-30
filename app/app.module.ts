@@ -22,7 +22,9 @@ import {JwtInterceptor} from '~/util/jwt.interceptor';
 
 import {OperationDefinitionNode} from 'graphql';
 import 'nativescript-localstorage';
+
 const NativeWebSocket = require('nativescript-websockets');
+const CONFIG = require('./config/config.json');
 
 @NgModule({
     bootstrap: [
@@ -65,12 +67,13 @@ export class AppModule {
     constructor(apollo: Apollo,
                 httpLink: HttpLink) {
 
-        const http = httpLink.create({
-            uri: 'http://backend-111afc1ee8ab4b54.elb.eu-central-1.amazonaws.com'
+        const link = httpLink.create({
+            uri: CONFIG.apiEndpoint
         });
 
+        /*
         const ws = new WebSocketLink({
-            uri: 'ws://backend-111afc1ee8ab4b54.elb.eu-central-1.amazonaws.com',
+            uri: CONFIG.apiWsEndpoint,
             options: {
                 reconnect: true
             },
@@ -86,6 +89,7 @@ export class AppModule {
             ws,
             http
         );
+        */
 
         apollo.create({
             link,

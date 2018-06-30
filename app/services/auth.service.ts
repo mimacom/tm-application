@@ -42,7 +42,7 @@ export class AuthService {
         return this.apollo.mutate<any>({
             mutation: standard,
             variables: {
-                email: username,
+                username,
                 password
             }
         }).pipe(

@@ -1,14 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Apollo, QueryRef} from 'apollo-angular';
-import {Observable} from 'rxjs/internal/Observable';
+import {Apollo} from 'apollo-angular';
 
-import {Post, Query} from '~/gen/types';
-import {drafts} from '~/graphql/query/drafts';
-import {feeds as feedsQuery} from '~/graphql/query/feeds';
-import {feeds as feedsSubscription} from '~/graphql/subscription/feeds';
+import {Query, Test} from '~/gen/types';
+import {tests} from '~/graphql/query/tests';
 import {DrawerPage} from '~/pages/drawer.page';
 import {AuthService} from '~/services/auth.service';
 import {StatusBar} from '~/util/native';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Component({
     moduleId: module.id,
@@ -18,9 +16,10 @@ import {StatusBar} from '~/util/native';
 })
 export class RootComponent extends DrawerPage implements OnInit {
 
-    private drafts: Post[];
-    private feedsQuery: QueryRef<any>;
-    private feeds: Observable<any>;
+    private tests: Observable<any>;
+
+    // private feedsQuery: QueryRef<any>;
+    // private feeds: Observable<any>;
 
     constructor(private authService: AuthService,
                 private apollo: Apollo) {
@@ -30,35 +29,35 @@ export class RootComponent extends DrawerPage implements OnInit {
     public ngOnInit(): void {
         StatusBar.show();
 
-        this.apollo.watchQuery<Query>({
-            query: drafts
-        }).valueChanges.subscribe((payload) => {
-            this.drafts = payload.data.drafts;
-        });
+        this.tests = this.apollo.watchQuery<Query>({
+            query: tests
+        }).valueChanges;
 
-        this.feedsQuery = this.apollo.watchQuery<Query>({
-            query: feedsQuery
-        });
+        /*
+         this.feedsQuery = this.apollo.watchQuery<Query>({
+         query: feedsQuery
+         });
 
-        this.feeds = this.feedsQuery.valueChanges;
+         this.feeds = this.feedsQuery.valueChanges;
 
-        this.feedsQuery.subscribeToMore({
-            document: feedsSubscription,
-            updateQuery: (previousQueryResult, {subscriptionData}) => {
-                if (!subscriptionData.data) {
-                    return previousQueryResult;
-                }
+         this.feedsQuery.subscribeToMore({
+         document: feedsSubscription,
+         updateQuery: (previousQueryResult, {subscriptionData}) => {
+         if (!subscriptionData.data) {
+         return previousQueryResult;
+         }
 
-                const newFeedItem = subscriptionData.data.node;
+         const newFeedItem = subscriptionData.data.node;
 
-                return {
-                    ...previousQueryResult,
-                    entry: {
-                        comments: [newFeedItem, ...previousQueryResult.feed]
-                    }
-                };
-            }
-        });
+         return {
+         ...previousQueryResult,
+         entry: {
+         comments: [newFeedItem, ...previousQueryResult.feed]
+         }
+         };
+         }
+         });
+         */
     }
 
     public logout(): void {

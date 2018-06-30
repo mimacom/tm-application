@@ -10,9 +10,9 @@
     </ScrollView>
     <StackLayout tkMainContent>
         <Button text="Logout" (tap)="logout()"></Button>
-        <StackLayout class="post" *ngFor="let post of feeds | async | select:'feed'">
-            <Label [text]="post.title"></Label>
-            <Label [text]="post.text"></Label>
+        <StackLayout class="post" *ngFor="let test of tests | async | select:'tests'">
+            <Label [text]="test.name"></Label>
+            <Label [text]="test.description"></Label>
         </StackLayout>
     </StackLayout>
 </RadSideDrawer>

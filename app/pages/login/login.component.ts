@@ -27,8 +27,8 @@ export class LoginComponent extends StandardPage implements OnInit {
         StatusBar.hide();
         this.page.actionBarHidden = true;
         this.user = {
-            email: 'ivan.g.ortolan@mimacom.com',
-            password: 'nooneknows'
+            email: '',
+            password: ''
         };
     }
 

@@ -5,3 +5,6 @@ platforms
 hooks
 app/**/*.js
 app/gen
+app/config
+
+!hooks/after-prepare/env.js
