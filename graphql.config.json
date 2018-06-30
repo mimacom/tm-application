@@ -1,7 +1,7 @@
 {
   "schema": {
     "request": {
-      "url" : "http://backend-111afc1ee8ab4b54.elb.eu-central-1.amazonaws.com",
+      "url" : "https://backend.dev.mimacom-tm.tk",
       "method" : "POST",
       "postIntrospectionQuery" : true,
       "options" : {
@@ -13,8 +13,26 @@
   },
   "endpoints" : [
     {
-      "name": "Backend",
-      "url": "http://backend-111afc1ee8ab4b54.elb.eu-central-1.amazonaws.com",
+      "name": "Local",
+      "url": "https://localhost:4000",
+      "options" : {
+        "headers": {
+          "user-agent" : "JS GraphQL"
+        }
+      }
+    },
+    {
+      "name": "Dev",
+      "url": "https://backend.dev.mimacom-tm.tk",
+      "options" : {
+        "headers": {
+          "user-agent" : "JS GraphQL"
+        }
+      }
+    },
+    {
+      "name": "Dev",
+      "url": "https://backend.mimacom-tm.tk",
       "options" : {
         "headers": {
           "user-agent" : "JS GraphQL"
