@@ -9,10 +9,11 @@ import {NativeScriptModule} from 'nativescript-angular/nativescript.module';
 import 'nativescript-localstorage';
 import {NativeScriptUISideDrawerModule} from 'nativescript-ui-sidedrawer/angular';
 const NativeWebSocket = require('nativescript-websockets');
-
 import {TNSFontIconModule} from 'nativescript-ngx-fonticon';
+
 import {AppComponent} from '~/app.component';
 import {AppRoutingModule} from '~/app.routing';
+import {DrawerComponent} from '~/components/drawer/drawer.component';
 import {AuthGuard} from '~/guards/auth.guard';
 import {LoginComponent} from '~/pages/login/login.component';
 import {RootComponent} from '~/pages/root/root.component';
@@ -39,6 +40,7 @@ const CONFIG = require('./config/config.json');
         AppRoutingModule
     ],
     declarations: [
+        DrawerComponent,
         AppComponent,
         LoginComponent,
         RootComponent

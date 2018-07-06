@@ -4,12 +4,11 @@
 </ActionBar>
 <RadSideDrawer #drawerComponent tkToggleNavButton showOverNavigation="true">
     <ScrollView tkDrawerContent class="drawer-content">
-        <StackLayout horizzontalAlign="left">
-            asd
-        </StackLayout>
+        <tm-drawer></tm-drawer>
     </ScrollView>
     <StackLayout tkMainContent>
         <Button text="Logout" (tap)="logout()"></Button>
+        <Label class="fa" [text]="'fa-home' | fonticon"></Label>
         <StackLayout class="post" *ngFor="let test of tests | async | select:'tests'">
             <Label [text]="test.name"></Label>
             <Label [text]="test.description"></Label>

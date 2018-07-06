@@ -1,5 +1,5 @@
 import {Location} from '@angular/common';
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Page} from 'tns-core-modules/ui/page';
 import {StandardPage} from '~/pages/standard.page';

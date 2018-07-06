@@ -1,0 +1,13 @@
+<StackLayout orientation="vertical">
+    <GridLayout class="drawer-header">
+        <Label text="test"></Label>
+    </GridLayout>
+    <StackLayout class="drawer-links" orientation="vertical">
+        <StackLayout class="drawer-link"
+                     orientation="horizontal"
+                     [nsRouterLink]="['/home']">
+            <Label class="fa" text="{{'fa-home' | fonticon}}"></Label>
+            <Label class="text" text="Home"></Label>
+        </StackLayout>
+    </StackLayout>
+</StackLayout>
