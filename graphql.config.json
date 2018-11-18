@@ -1,7 +1,7 @@
 {
   "schema": {
     "request": {
-      "url" : "https://backend.dev.mimacom-tm.tk",
+      "url" : "https://backend-dev.tm.mimacom.solutions",
       "method" : "POST",
       "postIntrospectionQuery" : true,
       "options" : {
@@ -13,8 +13,8 @@
   },
   "endpoints" : [
     {
-      "name": "Local",
-      "url": "https://localhost:4000",
+      "name": "local",
+      "url": "http://localhost:4000",
       "options" : {
         "headers": {
           "user-agent" : "JS GraphQL"
@@ -22,8 +22,8 @@
       }
     },
     {
-      "name": "Dev",
-      "url": "https://backend.dev.mimacom-tm.tk",
+      "name": "dev",
+      "url": "https://backend-dev.tm.mimacom.solutions",
       "options" : {
         "headers": {
           "user-agent" : "JS GraphQL"
@@ -31,8 +31,8 @@
       }
     },
     {
-      "name": "Dev",
-      "url": "https://backend.mimacom-tm.tk",
+      "name": "prod",
+      "url": "https://backend-prod.tm.mimacom.solutions",
       "options" : {
         "headers": {
           "user-agent" : "JS GraphQL"

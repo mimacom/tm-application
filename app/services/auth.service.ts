@@ -2,10 +2,12 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Apollo} from 'apollo-angular';
 import {Observable} from 'rxjs/internal/Observable';
-import {map} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 
-import {User} from '~/gen/types';
-import {standard} from '~/graphql/mutation/login';
+import {FetchResult} from 'apollo-link';
+import {LoginLdap, LoginLdapGQL} from '~/gen/apollo';
+import User = LoginLdap.User;
+import {ExecResult} from 'apollo-cache-inmemory';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -16,7 +18,8 @@ export class AuthService {
     private internalUser: User;
 
     constructor(private apollo: Apollo,
-                private router: Router) {
+                private router: Router,
+                private loginLdap: LoginLdapGQL) {
 
         const storageData = localStorage.getItem(AuthService.AUTH_KEY);
         if (storageData) {
@@ -37,19 +40,16 @@ export class AuthService {
         return this.token && this.token !== '';
     }
 
-    public login(username: string, password: string): Observable<any> {
+    public login(username: string, password: string): Observable<ExecResult<LoginLdap.Mutation>> {
 
-        return this.apollo.mutate<any>({
-            mutation: standard,
-            variables: {
-                username,
-                password
-            }
+        return this.loginLdap.mutate({
+            username,
+            password
         }).pipe(
-            map((payload: any) => {
-                if (payload.data.login) {
-                    this.cacheData(payload.data.login);
-                    localStorage.setItem(AuthService.AUTH_KEY, JSON.stringify(payload.data.login));
+            tap((result) => {
+                if (result.data.loginLdap) {
+                    this.cacheData(result.data.loginLdap);
+                    localStorage.setItem(AuthService.AUTH_KEY, JSON.stringify(result.data.loginLdap));
                 }
             })
         );
@@ -63,7 +63,7 @@ export class AuthService {
         this.router.navigate(['/login']);
     }
 
-    private cacheData(data: { token: string, user: User }) {
+    private cacheData(data: LoginLdap.LoginLdap) {
 
         this.internalToken = data.token;
         this.internalUser = data.user;

@@ -1,0 +1,10 @@
+mutation loginLdap($username: String!, $password: String!) {
+    loginLdap(username: $username, password: $password) {
+        token
+        user {
+            email
+            firstName
+            lastName
+        }
+    }
+}

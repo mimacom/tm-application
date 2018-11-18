@@ -1,15 +1,20 @@
+require('nativescript-nodeify');
+require('nativescript-websockets');
+
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import {Apollo, ApolloModule} from 'apollo-angular';
 import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
+import {split} from 'apollo-link';
+import {WebSocketLink} from 'apollo-link-ws';
+import {getMainDefinition} from 'apollo-utilities';
 import {NativeScriptFormsModule} from 'nativescript-angular/forms';
 import {NativeScriptHttpClientModule} from 'nativescript-angular/http-client';
 import {NativeScriptModule} from 'nativescript-angular/nativescript.module';
 import 'nativescript-localstorage';
-import {NativeScriptUISideDrawerModule} from 'nativescript-ui-sidedrawer/angular';
-const NativeWebSocket = require('nativescript-websockets');
 import {TNSFontIconModule} from 'nativescript-ngx-fonticon';
+import {NativeScriptUISideDrawerModule} from 'nativescript-ui-sidedrawer/angular';
 
 import {AppComponent} from '~/app.component';
 import {AppRoutingModule} from '~/app.routing';
@@ -68,29 +73,26 @@ export class AppModule {
     constructor(apollo: Apollo,
                 httpLink: HttpLink) {
 
-        const link = httpLink.create({
+        const http = httpLink.create({
             uri: CONFIG.apiEndpoint
         });
 
-        /*
-         const ws = new WebSocketLink({
-         uri: CONFIG.apiWsEndpoint,
-         options: {
-         reconnect: true
-         },
-         webSocketImpl: NativeWebSocket
-         });
+        const ws = new WebSocketLink({
+            uri: CONFIG.apiWsEndpoint,
+            options: {
+                reconnect: true
+            }
+        });
 
-         const link = split(
-         // split based on operation type
-         ({query}) => {
-         const {kind, operation} = getMainDefinition(query) as OperationDefinitionNode;
-         return kind === 'OperationDefinition' && operation === 'subscription';
-         },
-         ws,
-         http
-         );
-         */
+        const link = split(
+            // split based on operation type
+            ({query}) => {
+                const {kind, operation} = getMainDefinition(query);
+                return kind === 'OperationDefinition' && operation === 'subscription';
+            },
+            ws,
+            http
+        );
 
         apollo.create({
             link,

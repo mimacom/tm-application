@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Apollo} from 'apollo-angular';
+import {Observable} from 'rxjs/internal/Observable';
 
-import {Query, Test} from '~/gen/types';
-import {tests} from '~/graphql/query/tests';
+import {map, tap} from 'rxjs/operators';
+import {MeGQL, MesubGQL} from '~/gen/apollo';
 import {DrawerPage} from '~/pages/drawer.page';
 import {AuthService} from '~/services/auth.service';
 import {StatusBar} from '~/util/native';
-import {Observable} from 'rxjs/internal/Observable';
 
 @Component({
     moduleId: module.id,
@@ -16,48 +16,32 @@ import {Observable} from 'rxjs/internal/Observable';
 })
 export class RootComponent extends DrawerPage implements OnInit {
 
-    private tests: Observable<any>;
-
-    // private feedsQuery: QueryRef<any>;
-    // private feeds: Observable<any>;
+    private $me: Observable<any>;
+    private $meSub: Observable<any>;
 
     constructor(private authService: AuthService,
-                private apollo: Apollo) {
+                private apollo: Apollo,
+                private me: MeGQL,
+                private meSub: MesubGQL) {
         super();
     }
 
     public ngOnInit(): void {
         StatusBar.show();
 
-        this.tests = this.apollo.watchQuery<Query>({
-            query: tests
-        }).valueChanges;
+        this.$me = this.me
+            .watch()
+            .valueChanges
+            .pipe(
+                map((result) => result.data.me)
+            );
 
-        /*
-         this.feedsQuery = this.apollo.watchQuery<Query>({
-         query: feedsQuery
-         });
+        this.$meSub = this.meSub
+            .subscribe()
+            .pipe(
+                map((result) => result.data.me.node)
+            );
 
-         this.feeds = this.feedsQuery.valueChanges;
-
-         this.feedsQuery.subscribeToMore({
-         document: feedsSubscription,
-         updateQuery: (previousQueryResult, {subscriptionData}) => {
-         if (!subscriptionData.data) {
-         return previousQueryResult;
-         }
-
-         const newFeedItem = subscriptionData.data.node;
-
-         return {
-         ...previousQueryResult,
-         entry: {
-         comments: [newFeedItem, ...previousQueryResult.feed]
-         }
-         };
-         }
-         });
-         */
     }
 
     public logout(): void {

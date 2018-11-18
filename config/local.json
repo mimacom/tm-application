@@ -1,4 +1,0 @@
-{
-    "apiEndpoint": "https://localhost:4000",
-    "apiWsEndpoint": "wss://localhost:4000"
-}

@@ -1,0 +1,4 @@
+{
+    "apiEndpoint": "http://localhost:4000",
+    "apiWsEndpoint": "ws://localhost:4000"
+}

@@ -1,80 +1,85 @@
 {
-    "description": "NativeScript Application",
-    "license": "SEE LICENSE IN <your-license-filename>",
-    "readme": "NativeScript Application",
-    "repository": "<fill-your-repository-here>",
-    "nativescript": {
-        "id": "org.nativescript.timemanager",
-        "tns-android": {
-            "version": "4.1.3"
-        },
-        "hooks": [
-            {
-                "type": "after-prepare",
-                "script": "env.js"
-            }
-        ]
+  "description": "NativeScript Application",
+  "license": "SEE LICENSE IN <your-license-filename>",
+  "readme": "NativeScript Application",
+  "repository": "<fill-your-repository-here>",
+  "nativescript": {
+    "id": "org.nativescript.timemanager",
+    "tns-android": {
+      "version": "4.1.3"
     },
-    "scripts": {
-        "get-schema": "apollo-codegen download-schema https://backend.dev.mimacom-tm.tk --output app/gen/schema.json",
-        "gen-gql-types": "gql-gen --schema app/gen/schema.json --template graphql-codegen-typescript-template --out app/gen/ app/**/*.ts",
-        "regen-schema": "run-s get-schema gen-gql-types",
-        "run-android": "cross-env BUILD_PROFILE=local tns run android",
-        "run-dev-android": "cross-env BUILD_PROFILE=dev tns run android",
-        "debug-android": "cross-env BUILD_PROFILE=local tns debug android",
-        "debug-dev-android": "cross-env BUILD_PROFILE=dev tns debug android",
-        "build-android": "cross-env BUILD_PROFILE=local tns build android",
-        "build-dev-android": "cross-env BUILD_PROFILE=dev tns build android"
-    },
-    "dependencies": {
-        "@angular/animations": "~6.0.0",
-        "@angular/common": "~6.0.0",
-        "@angular/compiler": "~6.0.0",
-        "@angular/core": "~6.0.0",
-        "@angular/forms": "~6.0.0",
-        "@angular/http": "~6.0.0",
-        "@angular/platform-browser": "~6.0.0",
-        "@angular/platform-browser-dynamic": "~6.0.0",
-        "@angular/router": "~6.0.0",
-        "apollo-angular": "^1.1.2",
-        "apollo-angular-link-http": "^1.1.1",
-        "apollo-cache-inmemory": "^1.2.5",
-        "apollo-client": "^2.3.5",
-        "apollo-link": "^1.2.2",
-        "apollo-link-ws": "^1.0.8",
-        "apollo-utilities": "^1.0.16",
-        "graphql": "^0.13.2",
-        "graphql-tag": "^2.9.2",
-        "nativescript-angular": "~6.0.0",
-        "nativescript-localstorage": "^1.1.5",
-        "nativescript-ngx-fonticon": "^4.2.0",
-        "nativescript-svg": "^1.3.4",
-        "nativescript-theme-core": "~1.0.4",
-        "nativescript-ui-sidedrawer": "^4.1.1",
-        "nativescript-websockets": "^1.5.0",
-        "reflect-metadata": "~0.1.8",
-        "rxjs": "~6.1.0",
-        "subscriptions-transport-ws": "^0.9.11",
-        "tns-core-modules": "~4.1.0",
-        "zone.js": "^0.8.26"
-    },
-    "devDependencies": {
-        "@angular/language-service": "^6.0.7",
-        "@types/node": "^10.1.4",
-        "@types/zen-observable": "^0.8.0",
-        "apollo-codegen": "^0.20.1",
-        "babel-traverse": "6.26.0",
-        "babel-types": "6.26.0",
-        "babylon": "6.18.0",
-        "cross-env": "^5.2.0",
-        "graphql-code-generator": "^0.9.4",
-        "graphql-codegen-typescript-template": "^0.9.4",
-        "graphql-document-collector": "^0.2.1",
-        "lazy": "1.0.11",
-        "mkdirp": "^0.5.1",
-        "nativescript-dev-typescript": "~0.7.0",
-        "npm-run-all": "^4.1.3",
-        "tslint": "^5.10.0",
-        "typescript": "~2.7.2"
-    }
+    "hooks": [
+      {
+        "type": "after-prepare",
+        "script": "env.js"
+      }
+    ]
+  },
+  "scripts": {
+    "get-schema": "npx apollo service:download --endpoint=https://backend-dev.tm.mimacom.solutions app/gen/schema.json",
+    "gen-gql-types": "gql-gen --schema app/gen/schema.json --template graphql-codegen-typescript-template --out app/gen/ app/**/*.ts",
+    "regen-schema": "run-s get-schema gen-gql-types",
+    "run-android": "BUILD_PROFILE=local tns run android",
+    "run-dev-android": "BUILD_PROFILE=dev tns run android",
+    "debug-android": "BUILD_PROFILE=local tns debug android",
+    "debug-dev-android": "BUILD_PROFILE=dev tns debug android",
+    "build-android": "BUILD_PROFILE=local tns build android",
+    "build-dev-android": "BUILD_PROFILE=dev tns build android"
+  },
+  "dependencies": {
+    "@angular/animations": "~7.0.4",
+    "@angular/common": "~7.0.4",
+    "@angular/compiler": "~7.0.4",
+    "@angular/core": "~7.0.4",
+    "@angular/forms": "~7.0.4",
+    "@angular/http": "~7.0.4",
+    "@angular/platform-browser": "~7.0.4",
+    "@angular/platform-browser-dynamic": "~7.0.4",
+    "@angular/router": "~7.0.4",
+    "apollo-angular": "^1.5.0",
+    "apollo-angular-link-http": "^1.4.0",
+    "apollo-cache-inmemory": "^1.3.10",
+    "apollo-client": "2.4.6",
+    "apollo-link": "^1.2.3",
+    "apollo-link-ws": "^1.0.9",
+    "apollo-utilities": "^1.0.25",
+    "graphql": "^14.0.2",
+    "graphql-tag": "^2.10.0",
+    "nativescript-angular": "^7.0.0",
+    "nativescript-localstorage": "^2.0.0",
+    "nativescript-ngx-fonticon": "^4.2.0",
+    "nativescript-nodeify": "^0.8.0",
+    "nativescript-svg": "^1.3.7",
+    "nativescript-theme-core": "^1.0.4",
+    "nativescript-ui-sidedrawer": "^5.0.0",
+    "nativescript-websockets": "^1.5.3",
+    "reflect-metadata": "~0.1.12",
+    "rxjs": "~6.3.3",
+    "subscriptions-transport-ws": "^0.9.15",
+    "tns-core-modules": "^5.0.2",
+    "zone.js": "^0.8.26"
+  },
+  "devDependencies": {
+    "@angular/language-service": "^7.0.4",
+    "@types/node": "^10.12.9",
+    "@types/zen-observable": "^0.8.0",
+    "apollo": "^2.1.2",
+    "babel-traverse": "6.26.0",
+    "babel-types": "6.26.0",
+    "babylon": "6.18.0",
+    "cross-env": "^5.2.0",
+    "graphql-code-generator": "^0.14.1",
+    "graphql-codegen-introspection-template": "^0.14.1",
+    "graphql-codegen-typescript-apollo-angular": "^0.14.1",
+    "graphql-codegen-typescript-client": "^0.14.1",
+    "graphql-codegen-typescript-common": "^0.14.1",
+    "graphql-codegen-typescript-resolvers": "^0.14.1",
+    "graphql-codegen-typescript-server": "^0.14.1",
+    "lazy": "1.0.11",
+    "mkdirp": "^0.5.1",
+    "nativescript-dev-typescript": "~0.7.6",
+    "npm-run-all": "^4.1.3",
+    "tslint": "^5.11.0",
+    "typescript": "~3.1.6"
+  }
 }

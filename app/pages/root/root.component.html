@@ -9,9 +9,11 @@
     <StackLayout tkMainContent>
         <Button text="Logout" (tap)="logout()"></Button>
         <Label class="fa" [text]="'fa-home' | fonticon"></Label>
-        <StackLayout class="post" *ngFor="let test of tests | async | select:'tests'">
-            <Label [text]="test.name"></Label>
-            <Label [text]="test.description"></Label>
+        <StackLayout class="post" *ngIf="$me | async as me">
+            <Label [text]="me.firstName"></Label>
+        </StackLayout>
+        <StackLayout class="post" *ngIf="$meSub | async as me">
+            <Label [text]="me.firstName"></Label>
         </StackLayout>
     </StackLayout>
 </RadSideDrawer>
